@@ -1,0 +1,521 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f8fc">
+  <meta name="description" content="Think Before You Link studies entity rarity beyond popularity and uses reasoning with iterative retrieval to improve multilingual multimodal entity linking.">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Think Before You Link">
+  <meta property="og:description" content="Popularity is not rarity. A visual walkthrough of rarity, reasoning, and retrieval in multilingual entity linking.">
+  <meta property="og:url" content="https://neulab.github.io/think-before-you-link/">
+  <meta property="og:image" content="https://neulab.github.io/think-before-you-link/assets/figures/intro_figure.webp">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://neulab.github.io/think-before-you-link/">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="script.js"></script>
+  <title>Think Before You Link | Rarity, Reasoning, and Retrieval</title>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ScholarlyArticle",
+    "name": "Think Before You Link: Rarity, Reasoning, and Retrieval in Multilingual Entity Linking",
+    "author": [
+      {"@type": "Person", "name": "Parinthapat Pengpun", "url": "https://parinzee.github.io/"},
+      {"@type": "Person", "name": "Simran Khanuja", "url": "https://simran-khanuja.github.io/"},
+      {"@type": "Person", "name": "Graham Neubig", "url": "https://www.phontron.com/"}
+    ],
+    "datePublished": "2026",
+    "url": "https://neulab.github.io/think-before-you-link/",
+    "codeRepository": "https://github.com/neulab/think-before-you-link",
+    "isBasedOn": "https://huggingface.co/datasets/neulab/merlin"
+  }
+  </script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <header class="site-header" aria-label="Primary navigation">
+    <a class="wordmark" href="#top" aria-label="Think Before You Link, home">
+      <span class="wordmark-mark" aria-hidden="true">T</span>
+      <span>Think Before You Link</span>
+    </a>
+    <nav class="site-nav" aria-label="Page sections">
+      <a href="#rarity">Rarity</a>
+      <a href="#framework">Framework</a>
+      <a href="#interaction">Interaction</a>
+      <a href="#results">Results</a>
+      <a href="#dataset">Dataset</a>
+    </nav>
+    <a class="header-code" href="https://github.com/neulab/think-before-you-link">Code <span aria-hidden="true">↗</span></a>
+  </header>
+
+  <main id="main">
+    <section class="hero" id="top">
+      <div class="hero-glow hero-glow-one" aria-hidden="true"></div>
+      <div class="hero-glow hero-glow-two" aria-hidden="true"></div>
+      <div class="container hero-grid">
+        <div class="hero-copy reveal">
+          <p class="eyebrow"><span>Multilingual</span><span>Multimodal</span><span>Entity linking</span></p>
+          <h1>Think Before<br>You <span class="gradient-text">Link.</span></h1>
+          <p class="hero-title-long">Rarity, Reasoning, and Retrieval in Multilingual Entity Linking</p>
+          <p class="hero-lede"><strong>Popularity is not rarity.</strong> Structural signals reveal many difficult entities that popularity metrics miss. A training-free reasoning and retrieval framework then recovers much of the long tail.</p>
+          <p class="authors">
+            <a href="https://parinzee.github.io/">Parinthapat Pengpun</a>
+            <span aria-hidden="true">·</span>
+            <a href="https://simran-khanuja.github.io/">Simran Khanuja</a>
+            <span aria-hidden="true">·</span>
+            <a href="https://www.phontron.com/">Graham Neubig</a>
+          </p>
+          <p class="affiliation">Carnegie Mellon University · NeuLab</p>
+          <div class="button-row">
+            <a class="button button-primary" href="#walkthrough">Quick walkthrough <span aria-hidden="true">↓</span></a>
+            <a class="button" href="https://github.com/neulab/think-before-you-link">Code <span aria-hidden="true">↗</span></a>
+            <a class="button" href="https://huggingface.co/datasets/neulab/merlin-rare">Dataset <span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+
+        <figure class="hero-figure reveal" data-delay="1">
+          <button class="figure-button" type="button" data-lightbox data-src="assets/figures/task_example_figure.webp" data-caption="A Japanese news mention is ambiguous in text alone. The image and iterative Wikipedia search identify Diamond Princess (ship).">
+            <img src="assets/figures/task_example_figure.webp" alt="A Japanese news example. Text and image evidence lead a reasoning model through two searches to the Wikipedia title Diamond Princess ship." width="872" height="1108" fetchpriority="high">
+            <span class="zoom-hint" aria-hidden="true">Open figure</span>
+          </button>
+          <figcaption>One mention. Many clues. The model searches, checks the image, and refines its query before linking.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="signal-strip" aria-label="Key results">
+      <div class="container stat-grid">
+        <article class="stat-card reveal">
+          <strong>15</strong>
+          <span>rarity signals</span>
+          <p>Popularity, documentation, graph structure, and cross-lingual coverage.</p>
+        </article>
+        <article class="stat-card reveal" data-delay="1">
+          <strong>37%</strong>
+          <span>mean overlap</span>
+          <p>Different rarity definitions flag largely different entities.</p>
+        </article>
+        <article class="stat-card reveal" data-delay="2">
+          <strong>15.4–39.9%</strong>
+          <span>baseline drop</span>
+          <p>State-of-the-art accuracy falls across every rare-entity slice.</p>
+        </article>
+        <article class="stat-card stat-accent reveal" data-delay="3">
+          <strong>+23.3%</strong>
+          <span>largest gain</span>
+          <p>The advantage grows from +6.9% overall to its peak on rare slices.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="walkthrough section" id="walkthrough">
+      <div class="container">
+        <div class="section-heading reveal">
+          <p class="section-kicker">The paper in 90 seconds</p>
+          <h2>Measure what popularity misses.<br>Retrieve what models do not know.</h2>
+        </div>
+        <div class="story-steps">
+          <article class="story-step reveal">
+            <span class="step-number">01</span>
+            <div>
+              <h3>Broaden rarity</h3>
+              <p>Pageviews capture attention. They do not capture how richly an entity is documented, connected, or represented across languages.</p>
+            </div>
+          </article>
+          <article class="story-step reveal" data-delay="1">
+            <span class="step-number">02</span>
+            <div>
+              <h3>Expose hidden failures</h3>
+              <p>Structural and popularity metrics identify different tails. The current state of the art fails sharply across both.</p>
+            </div>
+          </article>
+          <article class="story-step reveal" data-delay="2">
+            <span class="step-number">03</span>
+            <div>
+              <h3>Reason with evidence</h3>
+              <p>A VLM iteratively searches Wikipedia and reasons over what it finds. No task-specific training is required.</p>
+            </div>
+          </article>
+          <article class="story-step reveal" data-delay="3">
+            <span class="step-number">04</span>
+            <div>
+              <h3>Recover the tail</h3>
+              <p>The best system reaches 87.9% average accuracy. Its advantage is largest on structurally sparse entities.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-tint" id="rarity">
+      <div class="container">
+        <div class="section-heading reveal">
+          <p class="section-kicker">Finding 1 · Rarity is multidimensional</p>
+          <h2>Low traffic and low coverage are not the same problem.</h2>
+          <p class="section-lede">An entity can receive public attention and still have little structured or cross-lingual information. A single popularity score cannot separate these cases.</p>
+        </div>
+
+        <div class="metric-families">
+          <article class="metric-family metric-wikipedia reveal">
+            <div class="metric-icon" aria-hidden="true">W</div>
+            <div>
+              <p class="metric-label">Wikipedia signals</p>
+              <h3>Attention and documentation</h3>
+              <p>How often people visit an article and how much editorial evidence exists around it.</p>
+              <div class="pill-list" aria-label="Wikipedia rarity metrics">
+                <span>Pageviews</span><span>Backlinks</span><span>Article size</span><span>Revisions</span><span>Editors</span><span>Categories</span><span>External links</span><span>References</span><span>Images</span>
+              </div>
+            </div>
+          </article>
+          <article class="metric-family metric-wikidata reveal" data-delay="1">
+            <div class="metric-icon" aria-hidden="true">Q</div>
+            <div>
+              <p class="metric-label">Wikidata signals</p>
+              <h3>Structure and cross-lingual coverage</h3>
+              <p>How richly the entity is connected and how many language communities document it.</p>
+              <div class="pill-list" aria-label="Wikidata rarity metrics">
+                <span>Incoming links</span><span>Outgoing links</span><span>Language editions</span><span>Statements</span><span>Qualifiers</span><span>Entity age</span>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <div class="figure-feature figure-feature-wide reveal">
+          <div class="figure-copy">
+            <p class="mini-kicker">Different metrics, different tails</p>
+            <h3>The average pair shares only 37% of its rare entities.</h3>
+            <p>Some cross-family pairs overlap by only 10%. Popularity-only evaluation therefore leaves many structurally sparse entities untested.</p>
+            <div class="takeaway"><span aria-hidden="true">↳</span><p><strong>Citation takeaway.</strong> Entity rarity depends on the resource signal used to define it.</p></div>
+          </div>
+          <figure>
+            <button class="figure-button" type="button" data-lightbox data-src="assets/figures/metric_jaccard_heatmap.webp" data-caption="Pairwise Jaccard overlap between bottom-5% rare-entity sets. Mean overlap is 37%, and some cross-family pairs overlap by only 10%.">
+              <img src="assets/figures/metric_jaccard_heatmap.webp" alt="Heatmap of pairwise overlap among 15 rarity metrics. Most cells show low to moderate overlap." width="1038" height="1012" loading="lazy">
+              <span class="zoom-hint" aria-hidden="true">Open figure</span>
+            </button>
+            <figcaption>Pairwise overlap between the bottom-5% entity sets for all 15 metrics.</figcaption>
+          </figure>
+        </div>
+
+        <div class="split-figures">
+          <article class="figure-card reveal">
+            <figure>
+              <button class="figure-button" type="button" data-lightbox data-src="assets/figures/performance_drop_plot.webp" data-caption="Cultural Pangea loses 15.4% to 39.9% accuracy across rare-entity slices. Wikipedia and Wikidata metrics both expose severe but distinct failures.">
+                <img src="assets/figures/performance_drop_plot.webp" alt="Horizontal bar chart showing accuracy losses from 15.4 to 39.9 percent across rarity metrics." width="722" height="838" loading="lazy">
+                <span class="zoom-hint" aria-hidden="true">Open figure</span>
+              </button>
+              <figcaption>Baseline accuracy change relative to the full test set.</figcaption>
+            </figure>
+            <div class="card-copy">
+              <p class="mini-kicker">The failures are severe</p>
+              <h3>Accuracy falls by 15.4–39.9%.</h3>
+              <p>Pageviews expose a 37.7% drop. Statement count exposes a similar 37.0% drop on a largely different set of entities.</p>
+            </div>
+          </article>
+          <article class="figure-card reveal" data-delay="1">
+            <figure>
+              <button class="figure-button" type="button" data-lightbox data-src="assets/figures/decile_curves.webp" data-caption="Accuracy decreases smoothly toward the sparse end of the distribution. The proposed system degrades about half as steeply as Cultural Pangea.">
+                <img src="assets/figures/decile_curves.webp" alt="Two line charts show accuracy decreasing toward rare entities for language editions and statements." width="608" height="372" loading="lazy">
+                <span class="zoom-hint" aria-hidden="true">Open figure</span>
+              </button>
+              <figcaption>Accuracy by rarity decile for two structural metrics.</figcaption>
+            </figure>
+            <div class="card-copy">
+              <p class="mini-kicker">The effect is a gradient</p>
+              <h3>No single cutoff creates the finding.</h3>
+              <p>Accuracy declines smoothly toward the sparse end. The trend also remains stable at 1%, 5%, and 10% thresholds.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="framework">
+      <div class="container">
+        <div class="section-heading reveal">
+          <p class="section-kicker">Finding 2 · A training-free framework</p>
+          <h2>Search is part of the reasoning process.</h2>
+          <p class="section-lede">Instead of reranking one fixed candidate list, the model decides what to search, reads the evidence, and can refine its query.</p>
+        </div>
+
+        <div class="pipeline" aria-label="Framework pipeline">
+          <article class="pipeline-step reveal">
+            <span class="pipeline-index">01</span>
+            <div class="pipeline-symbol">Text + Image</div>
+            <h3>Read the context</h3>
+            <p>Combine the source-language mention, article text, and image.</p>
+          </article>
+          <div class="pipeline-arrow" aria-hidden="true">→</div>
+          <article class="pipeline-step pipeline-core reveal" data-delay="1">
+            <span class="pipeline-index">02</span>
+            <div class="pipeline-symbol">Search + Repeat</div>
+            <h3>Reason and retrieve</h3>
+            <p>Search Wikipedia, inspect snippets, and refine the query when needed.</p>
+          </article>
+          <div class="pipeline-arrow" aria-hidden="true">→</div>
+          <article class="pipeline-step reveal" data-delay="2">
+            <span class="pipeline-index">03</span>
+            <div class="pipeline-symbol">Wikipedia title</div>
+            <h3>Return one title</h3>
+            <p>Extract the final canonical English Wikipedia page title.</p>
+          </article>
+        </div>
+
+        <div class="framework-notes">
+          <article class="note-card reveal">
+            <span class="note-icon" aria-hidden="true">0</span>
+            <h3>No task-specific training</h3>
+            <p>The framework can use pretrained reasoning and instruction-tuned VLMs at inference time.</p>
+          </article>
+          <article class="note-card reveal" data-delay="1">
+            <span class="note-icon" aria-hidden="true">1</span>
+            <h3>One forced first search</h3>
+            <p>The first tool call is forced because small models often skip search. Every later tool decision is automatic.</p>
+          </article>
+          <article class="note-card reveal" data-delay="2">
+            <span class="note-icon" aria-hidden="true">20</span>
+            <h3>Bounded iteration</h3>
+            <p>The model may search up to 20 times, though strong reasoning models usually stop after one or two searches.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-dark" id="interaction">
+      <div class="container">
+        <div class="section-heading reveal">
+          <p class="section-kicker">Finding 3 · The controlled interaction</p>
+          <h2>Reasoning and retrieval are complementary.</h2>
+          <p class="section-lede">Reasoning alone does not significantly improve rare-entity accuracy. Retrieval helps rare entities, but without reasoning it can hurt overall accuracy. Together they perform best.</p>
+        </div>
+
+        <div class="interaction-layout">
+          <div class="matrix-wrap reveal">
+            <div class="matrix-title">
+              <span>Qwen3-VL 8B</span>
+              <strong>Full-set accuracy</strong>
+            </div>
+            <div class="matrix" role="table" aria-label="Full-set accuracy by reasoning and embedding retrieval">
+              <div class="matrix-corner" role="columnheader">Accuracy (%)</div>
+              <div class="matrix-header" role="columnheader">No retrieval</div>
+              <div class="matrix-header" role="columnheader">Embedding retrieval</div>
+              <div class="matrix-header matrix-row" role="rowheader">Instruct</div>
+              <div class="matrix-cell" role="cell"><strong>83.5</strong><span>Parametric only</span></div>
+              <div class="matrix-cell matrix-warn" role="cell"><strong>82.9</strong><span>Retrieval noise</span></div>
+              <div class="matrix-header matrix-row" role="rowheader">Thinking</div>
+              <div class="matrix-cell" role="cell"><strong>84.2</strong><span>Reasoning only</span></div>
+              <div class="matrix-cell matrix-best" role="cell"><strong>87.9</strong><span>Best combination</span></div>
+            </div>
+          </div>
+
+          <div class="interaction-findings">
+            <article class="interaction-card reveal" data-delay="1">
+              <span class="interaction-tag tag-blue">Rare entities</span>
+              <strong>+8.2 to +21.6%</strong>
+              <p>Embedding retrieval improves every rare slice even without reasoning.</p>
+            </article>
+            <article class="interaction-card reveal" data-delay="2">
+              <span class="interaction-tag tag-orange">Full set</span>
+              <strong>−0.5%</strong>
+              <p>The same retrieval can reduce overall accuracy for the non-reasoning model.</p>
+            </article>
+            <article class="interaction-card interaction-card-best reveal" data-delay="3">
+              <span class="interaction-tag tag-green">Combined</span>
+              <strong>+3.8%</strong>
+              <p>The reasoning model turns embedding retrieval into a clear full-set gain.</p>
+            </article>
+          </div>
+        </div>
+        <p class="evidence-note reveal"><strong>Evidence boundary.</strong> The matched Qwen variants establish this controlled interaction. A second model family, GLM-4.6V-Flash, confirms that retrieval improves all 15 rare slices in thinking mode, but its non-thinking mode could not sustain the search loop.</p>
+      </div>
+    </section>
+
+    <section class="section" id="results">
+      <div class="container">
+        <div class="section-heading reveal">
+          <p class="section-kicker">Results · MERLIN across five languages</p>
+          <h2>The advantage grows toward the long tail.</h2>
+          <p class="section-lede">The best system reaches 87.9% average accuracy, +6.9% over the prior state of the art. Fourteen of 15 rare-slice gains are larger than the full-set gain.</p>
+        </div>
+
+        <figure class="result-hero reveal">
+          <button class="figure-button" type="button" data-lightbox data-src="assets/figures/intro_figure.webp" data-caption="The best system improves every MERLIN language, reaches gains of 23.3% on structural rare slices, and degrades less from the full set to rare entities.">
+            <img src="assets/figures/intro_figure.webp" alt="Three-panel summary showing gains across languages, rare slices, and full versus rare accuracy." width="1548" height="607" loading="lazy">
+            <span class="zoom-hint" aria-hidden="true">Open figure</span>
+          </button>
+          <figcaption>Full-set gains, rare-entity gains, and robustness on a representative structural slice.</figcaption>
+        </figure>
+
+        <div class="result-grid">
+          <article class="result-card result-card-wide reveal">
+            <div class="result-copy">
+              <p class="mini-kicker">Rare-slice advantage</p>
+              <h3>Structural tails produce the largest gains.</h3>
+              <p>The gain reaches +23.3% for qualifiers, +22.1% for statements, and +21.7% for Wikidata outgoing links.</p>
+            </div>
+            <figure>
+              <button class="figure-button" type="button" data-lightbox data-src="assets/figures/rare_fig_r1_advantage_growth.webp" data-caption="Advantage over Cultural Pangea on all 15 rarity slices. Fourteen gains exceed the full-set gain of 6.9%.">
+                <img src="assets/figures/rare_fig_r1_advantage_growth.webp" alt="Sorted horizontal bars show gains from 5.5 to 23.3 percent across 15 rarity metrics." width="1312" height="625" loading="lazy">
+                <span class="zoom-hint" aria-hidden="true">Open figure</span>
+              </button>
+            </figure>
+          </article>
+
+          <article class="result-card reveal">
+            <div class="result-copy">
+              <p class="mini-kicker">Reasoning or scale?</p>
+              <h3>A reasoning 4B model beats an 8B instruct model on rare entities.</h3>
+              <p>They are tied on the full set. On structural slices, the smaller reasoning model leads by roughly 5–7%.</p>
+            </div>
+            <figure>
+              <button class="figure-button" type="button" data-lightbox data-src="assets/figures/rare_fig_r6_reasoning_vs_size.webp" data-caption="4B-Think with embedding retrieval matches 8B-Instruct overall and wins by 5–7% on several rare-entity slices.">
+                <img src="assets/figures/rare_fig_r6_reasoning_vs_size.webp" alt="Grouped bars compare a 4B reasoning model with retrieval against an 8B instruct model." width="1139" height="580" loading="lazy">
+                <span class="zoom-hint" aria-hidden="true">Open figure</span>
+              </button>
+            </figure>
+          </article>
+
+          <article class="result-card reveal" data-delay="1">
+            <div class="result-copy">
+              <p class="mini-kicker">Robustness</p>
+              <h3>Our system degrades less on 14 of 15 rarity dimensions.</h3>
+              <p>The largest robustness gaps appear on language editions, statement count, qualifiers, and graph links.</p>
+            </div>
+            <figure>
+              <button class="figure-button" type="button" data-lightbox data-src="assets/figures/rare_fig_r2_robustness_scatter.webp" data-caption="Points below the diagonal indicate that our system degrades less than Cultural Pangea. This holds on 14 of 15 metrics.">
+                <img src="assets/figures/rare_fig_r2_robustness_scatter.webp" alt="Scatter plot comparing our accuracy drop with Cultural Pangea. Nearly all points lie below the equal robustness line." width="864" height="832" loading="lazy">
+                <span class="zoom-hint" aria-hidden="true">Open figure</span>
+              </button>
+            </figure>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-tint" id="behavior">
+      <div class="container">
+        <div class="section-heading reveal">
+          <p class="section-kicker">Inside the search loop</p>
+          <h2>More searches do not mean better search.</h2>
+          <p class="section-lede">Thinking models search less often, but spend much longer reasoning between calls. Instruct models keep searching even as their queries become repetitive.</p>
+        </div>
+        <div class="behavior-grid">
+          <article class="behavior-card reveal">
+            <figure>
+              <button class="figure-button" type="button" data-lightbox data-src="assets/figures/retrieval_fig_n4_retrieval_success.webp" data-caption="Search 2 is the most productive refinement step. Instruct models achieve higher cumulative retrieval only because they continue making more searches.">
+                <img src="assets/figures/retrieval_fig_n4_retrieval_success.webp" alt="Two line charts show per-search and cumulative target retrieval rates." width="628" height="837" loading="lazy">
+                <span class="zoom-hint" aria-hidden="true">Open figure</span>
+              </button>
+            </figure>
+            <div>
+              <p class="mini-kicker">Search 2 matters most</p>
+              <h3>Refinement helps. Extra searches quickly stop helping.</h3>
+              <p>The first result informs a stronger second query. Hit rates fall sharply after that point.</p>
+            </div>
+          </article>
+          <article class="behavior-card reveal" data-delay="1">
+            <figure>
+              <button class="figure-button" type="button" data-lightbox data-src="assets/figures/retrieval_fig_n6b_query_evolution.webp" data-caption="Instruct-model query diversity collapses and verbatim repetition rises. Thinking models stop earlier with stable query quality.">
+                <img src="assets/figures/retrieval_fig_n6b_query_evolution.webp" alt="Line charts show instruct-model queries becoming less diverse and more repetitive over repeated searches." width="598" height="837" loading="lazy">
+                <span class="zoom-hint" aria-hidden="true">Open figure</span>
+              </button>
+            </figure>
+            <div>
+              <p class="mini-kicker">Stopping is a capability</p>
+              <h3>Instruct-model queries degrade over long search chains.</h3>
+              <p>Verbatim repetition reaches 34%. Strong reasoning models usually stop after they have enough evidence.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section dataset-section" id="dataset">
+      <div class="container dataset-layout">
+        <div class="dataset-copy reveal">
+          <p class="section-kicker">Open artifacts</p>
+          <h2>MERLIN-Rare makes the long tail easy to test.</h2>
+          <p>We release the union of the 15 rare-entity slices with images, metric values, percentiles, and slice flags. The release also includes predictions and lossless traces for every complete paper configuration.</p>
+          <div class="dataset-stats" aria-label="MERLIN-Rare statistics">
+            <div><strong>1,105</strong><span>entity mentions</span></div>
+            <div><strong>790</strong><span>unique images</span></div>
+            <div><strong>5</strong><span>languages</span></div>
+            <div><strong>105</strong><span>prediction sets</span></div>
+          </div>
+          <div class="button-row button-row-left">
+            <a class="button button-primary" href="https://huggingface.co/datasets/neulab/merlin-rare">Open MERLIN-Rare <span aria-hidden="true">↗</span></a>
+            <a class="button" href="https://github.com/neulab/think-before-you-link#merlin-rare">Dataset guide <span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+        <div class="code-window reveal" data-delay="1">
+          <div class="code-titlebar"><span></span><span></span><span></span><p>load_merlin_rare.py</p></div>
+          <pre><code><span class="code-keyword">from</span> datasets <span class="code-keyword">import</span> load_dataset
+
+dataset = load_dataset(
+    <span class="code-string">"neulab/merlin-rare"</span>,
+    <span class="code-string">"hi"</span>,
+    split=<span class="code-string">"test"</span>,
+)
+
+structurally_sparse = dataset.filter(
+    <span class="code-keyword">lambda</span> row:
+        row[<span class="code-string">"rare_language_editions"</span>]
+)</code></pre>
+        </div>
+      </div>
+    </section>
+
+    <section class="section citation-section" id="citation">
+      <div class="container">
+        <div class="section-heading reveal">
+          <p class="section-kicker">Use this work</p>
+          <h2>Evaluate more than popularity.</h2>
+          <p class="section-lede">Use MERLIN-Rare for targeted evaluation, reuse the training-free framework with new VLMs, or cite the rarity analysis when defining the entity long tail.</p>
+        </div>
+        <div class="artifact-links reveal">
+          <a href="https://github.com/neulab/think-before-you-link"><span>01</span><strong>Evaluation framework</strong><small>MIT licensed code</small><b aria-hidden="true">↗</b></a>
+          <a href="https://huggingface.co/datasets/neulab/merlin-rare"><span>02</span><strong>MERLIN-Rare</strong><small>Data, predictions, and traces</small><b aria-hidden="true">↗</b></a>
+          <a href="https://huggingface.co/datasets/neulab/merlin"><span>03</span><strong>MERLIN</strong><small>Original benchmark</small><b aria-hidden="true">↗</b></a>
+        </div>
+        <div class="bibtex reveal">
+          <div class="bibtex-header">
+            <span>BibTeX</span>
+            <button type="button" id="copy-bibtex">Copy citation</button>
+          </div>
+          <pre id="bibtex-code"><code>@article{pengpun2026think,
+  title  = {Think Before You Link: Rarity, Reasoning, and
+            Retrieval in Multilingual Entity Linking},
+  author = {Pengpun, Parinthapat and Khanuja, Simran and
+            Neubig, Graham},
+  year   = {2026}
+}</code></pre>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>
+        <strong>Think Before You Link</strong>
+        <p>Carnegie Mellon University · NeuLab · 2026</p>
+      </div>
+      <div class="footer-links">
+        <a href="https://github.com/neulab/think-before-you-link">Code</a>
+        <a href="https://huggingface.co/datasets/neulab/merlin-rare">Dataset</a>
+        <a href="#top">Back to top ↑</a>
+      </div>
+    </div>
+  </footer>
+
+  <dialog class="lightbox" id="figure-dialog" aria-labelledby="dialog-caption">
+    <button class="lightbox-close" type="button" aria-label="Close figure">×</button>
+    <img id="dialog-image" alt="">
+    <p id="dialog-caption"></p>
+  </dialog>
+</body>
+</html>
