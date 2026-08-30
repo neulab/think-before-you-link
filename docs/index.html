@@ -62,7 +62,7 @@
           <p class="eyebrow"><span>Multilingual</span><span>Multimodal</span><span>Entity linking</span></p>
           <h1>Think Before<br>You <span class="gradient-text">Link.</span></h1>
           <p class="hero-title-long">Rarity, Reasoning, and Retrieval in Multilingual Entity Linking</p>
-          <p class="hero-lede"><strong>Popularity is not rarity.</strong> Structural signals reveal many difficult entities that popularity metrics miss. A training-free reasoning and retrieval framework then recovers much of the long tail.</p>
+          <p class="hero-lede"><strong>Popularity is not rarity.</strong> Prior work usually defines rare entities using popularity metrics such as pageviews. We show that these definitions miss many entities that are poorly documented or weakly connected. As a result, previous evaluations have underestimated the scope of the rare-entity problem. We then show that reasoning with retrieval helps link these entities.</p>
           <p class="authors">
             <a href="https://parinzee.github.io/">Parinthapat Pengpun</a>
             <span aria-hidden="true">·</span>
@@ -116,36 +116,36 @@
     <section class="walkthrough section" id="walkthrough">
       <div class="container">
         <div class="section-heading reveal">
-          <p class="section-kicker">The problem in four ideas</p>
-          <h2>The rare-entity problem is bigger than popularity suggests.</h2>
+          <p class="section-kicker">What current evaluation misses</p>
+          <h2>Rare entities are more than unpopular entities.</h2>
         </div>
         <div class="story-steps">
           <article class="story-step reveal">
             <span class="step-number">01</span>
             <div>
-              <h3>Rarity has multiple dimensions</h3>
-              <p>An entity can be unpopular, poorly documented, weakly connected, or absent across languages.</p>
+              <h3>Current practice</h3>
+              <p>Prior work usually defines rare entities using popularity metrics such as pageviews.</p>
             </div>
           </article>
           <article class="story-step reveal" data-delay="1">
             <span class="step-number">02</span>
             <div>
-              <h3>Different metrics find different entities</h3>
-              <p>The rare sets overlap by only 37% on average. Popularity metrics therefore miss many structurally rare entities.</p>
+              <h3>Our change</h3>
+              <p>We also measure how well each entity is documented, connected, and covered across languages.</p>
             </div>
           </article>
           <article class="story-step reveal" data-delay="2">
             <span class="step-number">03</span>
             <div>
-              <h3>The missed entities are difficult to link</h3>
-              <p>Current systems show substantial accuracy drops across these different rare-entity groups.</p>
+              <h3>What this reveals</h3>
+              <p>The two approaches identify different entities. Their rare sets overlap by only 37% on average, and current systems struggle on the entities that popularity metrics miss.</p>
             </div>
           </article>
           <article class="story-step reveal" data-delay="3">
             <span class="step-number">04</span>
             <div>
-              <h3>Reasoning with retrieval helps</h3>
-              <p>A model that searches for evidence and reasons over it performs best. Its largest gains are on rare entities.</p>
+              <h3>What helps</h3>
+              <p>A model that reasons while searching Wikipedia improves accuracy most on these rare entities.</p>
             </div>
           </article>
         </div>
