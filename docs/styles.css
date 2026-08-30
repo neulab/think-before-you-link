@@ -350,18 +350,6 @@ a {
   transform: rotate(1.1deg);
 }
 
-.hero-figure::before {
-  position: absolute;
-  z-index: -1;
-  right: -18px;
-  bottom: -18px;
-  width: 75%;
-  height: 75%;
-  background: var(--green-soft);
-  border-radius: 28px;
-  content: "";
-}
-
 .hero-figure img {
   width: 100%;
   border-radius: 15px;
