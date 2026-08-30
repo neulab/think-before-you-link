@@ -116,36 +116,36 @@
     <section class="walkthrough section" id="walkthrough">
       <div class="container">
         <div class="section-heading reveal">
-          <p class="section-kicker">The paper in 90 seconds</p>
-          <h2>Measure what popularity misses.<br>Retrieve what models do not know.</h2>
+          <p class="section-kicker">The problem in four ideas</p>
+          <h2>The rare-entity problem is bigger than popularity suggests.</h2>
         </div>
         <div class="story-steps">
           <article class="story-step reveal">
             <span class="step-number">01</span>
             <div>
-              <h3>Broaden rarity</h3>
-              <p>Pageviews capture attention. They do not capture how richly an entity is documented, connected, or represented across languages.</p>
+              <h3>Rarity has multiple dimensions</h3>
+              <p>An entity can be unpopular, poorly documented, weakly connected, or absent across languages.</p>
             </div>
           </article>
           <article class="story-step reveal" data-delay="1">
             <span class="step-number">02</span>
             <div>
-              <h3>Expose hidden failures</h3>
-              <p>Structural and popularity metrics identify different tails. The current state of the art fails sharply across both.</p>
+              <h3>Different metrics find different entities</h3>
+              <p>The rare sets overlap by only 37% on average. Popularity metrics therefore miss many structurally rare entities.</p>
             </div>
           </article>
           <article class="story-step reveal" data-delay="2">
             <span class="step-number">03</span>
             <div>
-              <h3>Reason with evidence</h3>
-              <p>A VLM iteratively searches Wikipedia and reasons over what it finds. No task-specific training is required.</p>
+              <h3>The missed entities are difficult to link</h3>
+              <p>Current systems show substantial accuracy drops across these different rare-entity groups.</p>
             </div>
           </article>
           <article class="story-step reveal" data-delay="3">
             <span class="step-number">04</span>
             <div>
-              <h3>Recover the tail</h3>
-              <p>The best system reaches 87.9% average accuracy. Its advantage is largest on structurally sparse entities.</p>
+              <h3>Reasoning with retrieval helps</h3>
+              <p>A model that searches for evidence and reasons over it performs best. Its largest gains are on rare entities.</p>
             </div>
           </article>
         </div>
@@ -190,7 +190,7 @@
             <p class="mini-kicker">Different metrics, different tails</p>
             <h3>The average pair shares only 37% of its rare entities.</h3>
             <p>Some cross-family pairs overlap by only 10%. Popularity-only evaluation therefore leaves many structurally sparse entities untested.</p>
-            <div class="takeaway"><span aria-hidden="true">↳</span><p><strong>Citation takeaway.</strong> Entity rarity depends on the resource signal used to define it.</p></div>
+            <div class="takeaway"><span aria-hidden="true">↳</span><p><strong>Takeaway.</strong> Entity rarity depends on the resource signal used to define it.</p></div>
           </div>
           <figure>
             <button class="figure-button" type="button" data-lightbox data-src="assets/figures/metric_jaccard_heatmap.webp" data-caption="Pairwise Jaccard overlap between bottom-5% rare-entity sets. Mean overlap is 37%, and some cross-family pairs overlap by only 10%.">
