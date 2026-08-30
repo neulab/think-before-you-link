@@ -4,6 +4,7 @@ Code for **Think Before You Link: Rarity, Reasoning, and Retrieval in Multilingu
 
 The paper studies multilingual multimodal entity linking on [MERLIN](https://huggingface.co/datasets/neulab/merlin). It characterizes entity rarity with 15 Wikipedia and Wikidata metrics and evaluates a vision-language model that iteratively reasons and searches English Wikipedia.
 
+- Project website: [neulab.github.io/think-before-you-link](https://neulab.github.io/think-before-you-link/)
 - MERLIN-Rare dataset and per-example artifacts: [neulab/merlin-rare](https://huggingface.co/datasets/neulab/merlin-rare)
 - Code license: MIT
 - MERLIN-Rare license: CC BY-SA 4.0
