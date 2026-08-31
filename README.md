@@ -315,6 +315,12 @@ The tests cover scoring behavior, Wikipedia-index extraction, MERLIN-Rare recons
 
 Please also cite the original MERLIN paper when using MERLIN-Rare.
 
+## Acknowledgments
+
+We thank Ibrahim AlRayes for his help with this project, and Jean de Dieu Nyandwi and Zaid Sheikh for sharing resources that supported this work. We also thank the members of NeuLab for their helpful feedback.
+
+This work was supported in part by a research grant from the Defence Science and Technology Agency (DSTA), Singapore.
+
 ## Licenses
 
 - Code is released under the [MIT License](LICENSE).

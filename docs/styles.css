@@ -1370,6 +1370,43 @@ figcaption {
   line-height: 1.7;
 }
 
+.acknowledgments {
+  position: relative;
+  margin-top: 22px;
+  padding: 26px 28px 27px 31px;
+  overflow: hidden;
+  background: linear-gradient(120deg, var(--blue-soft), #f5f1fa 58%, var(--green-soft));
+  border: 1px solid #d7e0ed;
+  border-radius: 17px;
+}
+
+.acknowledgments::before {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 5px;
+  background: linear-gradient(var(--blue), var(--green));
+  content: "";
+}
+
+.acknowledgments .section-kicker {
+  margin-bottom: 8px;
+}
+
+.acknowledgments h3 {
+  margin: 0 0 8px;
+  font-size: clamp(20px, 2.5vw, 27px);
+  letter-spacing: -0.025em;
+  line-height: 1.25;
+}
+
+.acknowledgments p:last-child {
+  max-width: 920px;
+  margin: 10px 0 0;
+  color: var(--muted);
+}
+
 .bibtex-head {
   display: flex;
   justify-content: space-between;
