@@ -1,0 +1,31 @@
+cff-version: 1.2.0
+message: "If you use this software or MERLIN-Rare, please cite the paper below."
+title: "Think Before You Link"
+type: software
+authors:
+  - family-names: Pengpun
+    given-names: Parinthapat
+  - family-names: Khanuja
+    given-names: Simran
+  - family-names: Neubig
+    given-names: Graham
+repository-code: "https://github.com/neulab/think-before-you-link"
+url: "https://neulab.github.io/think-before-you-link/"
+license: MIT
+keywords:
+  - entity linking
+  - multilingual NLP
+  - multimodal NLP
+  - retrieval-augmented generation
+  - rare entities
+preferred-citation:
+  type: conference-paper
+  title: "Think Before You Link: Rarity, Reasoning, and Retrieval in Multilingual Entity Linking"
+  authors:
+    - family-names: Pengpun
+      given-names: Parinthapat
+    - family-names: Khanuja
+      given-names: Simran
+    - family-names: Neubig
+      given-names: Graham
+  year: 2026
