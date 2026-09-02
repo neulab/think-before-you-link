@@ -116,6 +116,25 @@ def test_site_preserves_every_published_figure():
     assert expected <= published
 
 
+def test_results_use_horizontal_robustness_gap_chart():
+    images = parse_site().images
+    chart = next(
+        image
+        for image in images
+        if image.get("src")
+        == "assets/figures/rare_fig_r2_robustness_gap.svg"
+    )
+
+    alt = chart.get("alt", "").lower()
+    assert "horizontal bar chart" in alt
+    assert "14 of 15" in alt
+    assert all(
+        image.get("src")
+        != "assets/figures/rare_fig_r2_robustness_scatter.webp"
+        for image in images
+    )
+
+
 def test_site_has_approved_links_and_iterative_diagram():
     html = (DOCS / "index.html").read_text(encoding="utf-8")
     assert "https://github.com/neulab/think-before-you-link" in html
