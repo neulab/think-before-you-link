@@ -1,6 +1,7 @@
 from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import urlparse
+from xml.etree import ElementTree
 
 from PIL import Image
 
@@ -24,7 +25,7 @@ class SiteParser(HTMLParser):
             self.ids.append(attributes["id"])
         if "class" in attributes:
             self.classes.extend(attributes["class"].split())
-        for name in ("href", "src"):
+        for name in ("href", "src", "srcset"):
             if name in attributes:
                 self.references.append(attributes[name])
         if tag == "img":
@@ -57,11 +58,16 @@ def test_published_image_dimensions_are_exact():
         source = attributes.get("src")
         if not source or urlparse(source).scheme:
             continue
-        with Image.open(DOCS / source) as image:
-            assert image.size == (
-                int(attributes["width"]),
-                int(attributes["height"]),
-            )
+        path = DOCS / source
+        expected = (int(attributes["width"]), int(attributes["height"]))
+        if path.suffix == ".svg":
+            root = ElementTree.parse(path).getroot()
+            viewbox = tuple(float(value) for value in root.attrib["viewBox"].split())
+            assert viewbox[:2] == (0, 0)
+            assert viewbox[2:] == expected
+        else:
+            with Image.open(path) as image:
+                assert image.size == expected
 
 
 def test_github_pages_bypasses_jekyll():
@@ -114,9 +120,47 @@ def test_site_has_approved_links_and_iterative_diagram():
     assert "https://github.com/neulab/think-before-you-link" in html
     assert "https://huggingface.co/datasets/neulab/merlin-rare" in html
     assert "arxiv.org" not in html.lower()
-    assert "q_t" in html and "q_{t+1}" in html
-    assert "Iteration 1" in html and "Iteration 2" in html
-    assert "stroke-dasharray" in html
+    diagram_path = DOCS / "assets" / "figures" / "framework_diagram.svg"
+    assert diagram_path.is_file()
+    diagram = diagram_path.read_text(encoding="utf-8")
+    assert "q_t" in diagram and "q_{t+1}" in diagram
+    assert all(f"Iteration {number}" in diagram for number in (1, 2, 3))
+    assert "stroke-dasharray" in diagram
+
+
+def test_hero_places_task_and_framework_figures_side_by_side():
+    html = (DOCS / "index.html").read_text(encoding="utf-8")
+    hero_start = html.index('<section class="hero teaser">')
+    hero_end = html.index("</section>", hero_start)
+    hero = html[hero_start:hero_end]
+    assert hero.count("<figure") == 2
+    assert "task_example_figure.webp" in hero
+    assert "framework_diagram.svg" in hero
+    assert "hero-figure-pair" in hero
+
+
+def test_framework_diagram_is_reused_and_shows_three_search_rounds():
+    html = (DOCS / "index.html").read_text(encoding="utf-8")
+    assert html.count('src="assets/figures/framework_diagram.svg"') == 2
+    assert html.count('srcset="assets/figures/framework_diagram_mobile.svg"') == 2
+
+    for filename in ("framework_diagram.svg", "framework_diagram_mobile.svg"):
+        diagram = (DOCS / "assets" / "figures" / filename).read_text(
+            encoding="utf-8"
+        )
+        required = [
+            "Iteration 1",
+            "Iteration 2",
+            "Iteration 3",
+            "Reasoning",
+            "Search",
+            "Returned results",
+            'cruise ship Yokohama virus',
+            'Diamond Princess&quot; Yokohama',
+            "Diamond Princess ship",
+            "Diamond Princess (ship)",
+        ]
+        assert all(item in diagram for item in required)
 
 
 def test_site_removes_previous_landing_page_ui():
@@ -137,6 +181,11 @@ def test_navigation_and_diagram_have_accessible_contracts():
     assert 'aria-controls="site-menu"' in html
     assert 'aria-expanded="false"' in html
     assert 'id="site-menu"' in html
-    assert 'role="img"' in html
-    assert '<title id="framework-diagram-title">' in html
-    assert '<desc id="framework-diagram-description">' in html
+    assert html.count('alt="Iterative Wikipedia retrieval') == 2
+
+    diagram = (DOCS / "assets" / "figures" / "framework_diagram.svg").read_text(
+        encoding="utf-8"
+    )
+    assert 'role="img"' in diagram
+    assert '<title id="framework-diagram-title">' in diagram
+    assert '<desc id="framework-diagram-description">' in diagram
