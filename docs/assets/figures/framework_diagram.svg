@@ -1,0 +1,92 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1260 1020" role="img" aria-labelledby="framework-diagram-title framework-diagram-description">
+  <title id="framework-diagram-title">Iterative Wikipedia retrieval with a three-step example trace</title>
+  <desc id="framework-diagram-description">A reasoning vision-language model updates its state using returned evidence and issues new search queries. In an illustrative three-iteration trace, a broad cruise ship query is refined using the name Diamond Princess from the image, then verified before title extraction.</desc>
+  <defs>
+    <marker id="arrow-blue" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 10 5 0 10Z" fill="#4d789b"/></marker>
+    <marker id="arrow-green" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0 10 5 0 10Z" fill="#4f8068"/></marker>
+    <style>
+      .panel{fill:#fff;stroke:#d9dee2;stroke-width:1.5}.eyebrow{fill:#667179;font:700 15px Arial,sans-serif;letter-spacing:2px}.title{fill:#263038;font:700 22px Arial,sans-serif}.body{fill:#465159;font:17px Arial,sans-serif}.small{fill:#465159;font:600 14px Arial,sans-serif}.note{fill:#765f4f;font:600 12px Arial,sans-serif}.label{fill:#667179;font:700 12px Arial,sans-serif;letter-spacing:1.3px}.iteration{fill:#30383e;font:700 20px Arial,sans-serif}.code{fill:#263038;font:600 16px ui-monospace,SFMono-Regular,Menlo,monospace}.result{fill:#354047;font:15px Arial,sans-serif}.result-strong{fill:#28533a;font:700 15px Arial,sans-serif}.box{stroke-width:1.5}.input{fill:#f2f4f5;stroke:#aeb6bc}.model{fill:#f9eadf;stroke:#d9a17a}.search{fill:#e8f1f7;stroke:#7fa6c1}.evidence{fill:#e8f2eb;stroke:#83aa92}.neutral{fill:#f5f6f7;stroke:#bec5ca}.verify{fill:#fff6de;stroke:#d8b461}.state-a{fill:#fff7f0;stroke:#dcb293}.state-b{fill:#edf5f8;stroke:#8caec4}.flow{fill:none;stroke:#4d789b;stroke-width:2}.return{fill:none;stroke:#4f8068;stroke-width:2}.rule{stroke:#aab2b8;stroke-width:1.5;stroke-dasharray:8 9}.divider{stroke:#cdd3d7;stroke-width:1}.final-label{fill:#4f8068;font:700 13px Arial,sans-serif;letter-spacing:1.3px}.final{fill:#263038;font:700 20px Arial,sans-serif}
+    </style>
+  </defs>
+
+  <rect class="panel" x="12" y="12" width="392" height="996" rx="4"/>
+  <text class="eyebrow" x="36" y="48">SEARCH LOOP</text>
+  <rect class="box input" x="62" y="78" width="292" height="96" rx="12"/>
+  <text class="title" x="208" y="116" text-anchor="middle">Input</text>
+  <text class="body" x="208" y="147" text-anchor="middle">image + passage + mention</text>
+  <path class="flow" d="M208 174V229" marker-end="url(#arrow-blue)"/>
+
+  <rect class="box model" x="46" y="240" width="324" height="172" rx="14"/>
+  <text class="title" x="208" y="280" text-anchor="middle">Reasoning VLM</text>
+  <rect class="state-a" x="75" y="312" width="112" height="46" rx="23"/>
+  <text class="small" x="131" y="340" text-anchor="middle">state s_t</text>
+  <path class="flow" d="M194 335H225" marker-end="url(#arrow-blue)"/>
+  <rect class="state-b" x="232" y="312" width="112" height="46" rx="23"/>
+  <text class="small" x="288" y="340" text-anchor="middle">state s_{t+1}</text>
+  <text class="note" x="208" y="390" text-anchor="middle">e_t updates the state before q_{t+1}</text>
+
+  <rect class="box evidence" x="62" y="534" width="292" height="112" rx="12"/>
+  <text class="title" x="208" y="576" text-anchor="middle">Wikipedia search</text>
+  <text class="body" x="208" y="609" text-anchor="middle">returns new article snippets</text>
+  <path class="flow" d="M292 412V496Q292 512 276 512H250V532" marker-end="url(#arrow-blue)"/>
+  <rect class="state-b" x="264" y="454" width="106" height="34" rx="17"/>
+  <text class="small" x="317" y="476" text-anchor="middle">query q_t</text>
+  <path class="return" d="M154 534V500Q154 484 138 484H116V414" marker-end="url(#arrow-green)"/>
+  <rect class="state-a" x="45" y="450" width="118" height="34" rx="17"/>
+  <text class="small" x="104" y="472" text-anchor="middle">evidence e_t</text>
+
+  <path class="flow" d="M46 392H27V765H60" marker-end="url(#arrow-blue)"/>
+  <text class="small" x="20" y="645" transform="rotate(-90 20 645)" text-anchor="middle">when confident</text>
+  <rect class="box search" x="62" y="722" width="292" height="88" rx="12"/>
+  <text class="title" x="208" y="759" text-anchor="middle">Title extraction</text>
+  <text class="body" x="208" y="788" text-anchor="middle">one English Wikipedia title</text>
+  <text class="body" x="208" y="873" text-anchor="middle">Each returned result can change</text>
+  <text class="body" x="208" y="901" text-anchor="middle">what the model searches for next.</text>
+
+  <rect class="panel" x="424" y="12" width="824" height="996" rx="4"/>
+  <text class="eyebrow" x="450" y="48">ILLUSTRATIVE SEARCH TRACE</text>
+
+  <text class="iteration" x="450" y="84">Iteration 1</text>
+  <rect class="box model" x="450" y="102" width="772" height="58" rx="9"/>
+  <text class="label" x="470" y="125">REASONING</text>
+  <text class="body" x="470" y="149">The mention only says “cruise ship” near Yokohama. I need candidate names…</text>
+  <rect class="box search" x="450" y="170" width="772" height="58" rx="9"/>
+  <text class="label" x="470" y="193">SEARCH</text>
+  <text class="code" x="470" y="217">search(&quot;cruise ship Yokohama virus&quot;)</text>
+  <rect class="box neutral" x="450" y="238" width="772" height="92" rx="9"/>
+  <text class="label" x="470" y="261">RETURNED RESULTS</text>
+  <text class="result" x="470" y="286">• Port of Yokohama</text>
+  <text class="result" x="700" y="286">• Cruise ship</text>
+  <text class="result" x="890" y="286">• COVID-19 outbreaks on cruise ships</text>
+
+  <line class="rule" x1="450" y1="357" x2="1222" y2="357"/>
+  <text class="iteration" x="450" y="397">Iteration 2</text>
+  <rect class="box model" x="450" y="415" width="772" height="58" rx="9"/>
+  <text class="label" x="470" y="438">REASONING</text>
+  <text class="body" x="470" y="462">Those results are too broad. The hull appears to read “Diamond Princess”…</text>
+  <rect class="box search" x="450" y="483" width="772" height="58" rx="9"/>
+  <text class="label" x="470" y="506">SEARCH</text>
+  <text class="code" x="470" y="530">search(&quot;\&quot;Diamond Princess\&quot; Yokohama&quot;)</text>
+  <rect class="box neutral" x="450" y="551" width="772" height="92" rx="9"/>
+  <text class="label" x="470" y="574">RETURNED RESULTS</text>
+  <text class="result" x="470" y="599">• COVID-19 pandemic on Diamond Princess</text>
+  <text class="result-strong" x="820" y="599">• Diamond Princess (ship)</text>
+  <text class="result" x="470" y="625">• Diamond Princess (disambiguation)</text>
+
+  <line class="rule" x1="450" y1="670" x2="1222" y2="670"/>
+  <text class="iteration" x="450" y="710">Iteration 3</text>
+  <rect class="box verify" x="450" y="728" width="772" height="58" rx="9"/>
+  <text class="label" x="470" y="751">REASONING</text>
+  <text class="body" x="470" y="775">The vessel is the right sense. I should confirm its canonical English title…</text>
+  <rect class="box search" x="450" y="796" width="772" height="58" rx="9"/>
+  <text class="label" x="470" y="819">SEARCH</text>
+  <text class="code" x="470" y="843">search(&quot;Diamond Princess ship&quot;)</text>
+  <rect class="box evidence" x="450" y="864" width="772" height="92" rx="9"/>
+  <text class="label" x="470" y="887">RETURNED RESULTS</text>
+  <text class="result-strong" x="470" y="912">• Diamond Princess (ship)</text>
+  <text class="result" x="735" y="912">• Grand-class cruise ship</text>
+  <text class="result" x="990" y="912">• COVID-19 outbreak information</text>
+  <line class="divider" x1="450" y1="973" x2="1222" y2="973"/>
+  <text class="final-label" x="450" y="997">FINAL OUTPUT</text>
+  <text class="final" x="590" y="997">Diamond Princess (ship)</text>
+</svg>

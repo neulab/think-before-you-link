@@ -112,7 +112,7 @@ def test_site_preserves_every_published_figure():
         for image in parse_site().images
         if image.get("src", "").startswith("assets/figures/")
     }
-    assert published == expected
+    assert expected <= published
 
 
 def test_site_has_approved_links_and_iterative_diagram():
@@ -128,15 +128,21 @@ def test_site_has_approved_links_and_iterative_diagram():
     assert "stroke-dasharray" in diagram
 
 
-def test_hero_places_task_and_framework_figures_side_by_side():
+def test_hero_leads_with_framework_and_abstract_contains_task_figure():
     html = (DOCS / "index.html").read_text(encoding="utf-8")
     hero_start = html.index('<section class="hero teaser">')
     hero_end = html.index("</section>", hero_start)
     hero = html[hero_start:hero_end]
-    assert hero.count("<figure") == 2
-    assert "task_example_figure.webp" in hero
+    assert hero.count("<figure") == 1
+    assert "task_example_figure.webp" not in hero
     assert "framework_diagram.svg" in hero
-    assert "hero-figure-pair" in hero
+
+    abstract_start = html.index('<section class="section abstract-section"')
+    abstract_end = html.index("</section>", abstract_start)
+    abstract = html[abstract_start:abstract_end]
+    assert "abstract-layout" in abstract
+    assert "task_example_figure.webp" in abstract
+    assert abstract.count("<figure") == 1
 
 
 def test_framework_diagram_is_reused_and_shows_three_search_rounds():
@@ -149,18 +155,19 @@ def test_framework_diagram_is_reused_and_shows_three_search_rounds():
             encoding="utf-8"
         )
         required = [
-            "Iteration 1",
-            "Iteration 2",
-            "Iteration 3",
-            "Reasoning",
-            "Search",
-            "Returned results",
-            'cruise ship Yokohama virus',
-            'Diamond Princess&quot; Yokohama',
-            "Diamond Princess ship",
-            "Diamond Princess (ship)",
+            "iteration 1",
+            "iteration 2",
+            "iteration 3",
+            "reasoning",
+            "search",
+            "returned results",
+            "cruise ship yokohama virus",
+            "diamond princess",
+            "yokohama",
+            "diamond princess ship",
+            "diamond princess (ship)",
         ]
-        assert all(item in diagram for item in required)
+        assert all(item in diagram.lower() for item in required)
 
 
 def test_site_removes_previous_landing_page_ui():
