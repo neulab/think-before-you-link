@@ -455,61 +455,33 @@ button:focus-visible {
 }
 
 .hero-animation-stage {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.hero-example.is-animated .hero-animation-stage {
-  animation-duration: 12s;
-  animation-iteration-count: infinite;
+  animation-duration: 0.55s;
+  animation-fill-mode: both;
+  animation-iteration-count: 1;
+  animation-name: hero-stage-enter;
   animation-timing-function: ease;
-  opacity: 0;
   will-change: opacity, transform;
 }
 
-.hero-example.is-animated [data-hero-stage="1"] {
-  animation-name: hero-reveal-one;
+.hero-animation-stage[data-hero-stage="1"] {
+  animation-delay: 0.25s;
 }
 
-.hero-example.is-animated [data-hero-stage="2"] {
-  animation-name: hero-reveal-two;
+.hero-animation-stage[data-hero-stage="2"] {
+  animation-delay: 1.4s;
 }
 
-.hero-example.is-animated [data-hero-stage="3"] {
-  animation-name: hero-reveal-three;
+.hero-animation-stage[data-hero-stage="3"] {
+  animation-delay: 2.55s;
 }
 
-.hero-example.is-animated [data-hero-stage="4"] {
-  animation-name: hero-reveal-four;
+.hero-animation-stage[data-hero-stage="4"] {
+  animation-delay: 3.7s;
 }
 
-.hero-example.is-paused .hero-animation-stage,
-.hero-example:hover .hero-animation-stage {
-  animation-play-state: paused;
-}
-
-@keyframes hero-reveal-one {
-  0%, 3% { opacity: 0; transform: translateY(6px); }
-  8%, 94% { opacity: 1; transform: translateY(0); }
-  100% { opacity: 0; transform: translateY(0); }
-}
-
-@keyframes hero-reveal-two {
-  0%, 18% { opacity: 0; transform: translateY(6px); }
-  23%, 94% { opacity: 1; transform: translateY(0); }
-  100% { opacity: 0; transform: translateY(0); }
-}
-
-@keyframes hero-reveal-three {
-  0%, 33% { opacity: 0; transform: translateY(6px); }
-  38%, 94% { opacity: 1; transform: translateY(0); }
-  100% { opacity: 0; transform: translateY(0); }
-}
-
-@keyframes hero-reveal-four {
-  0%, 48% { opacity: 0; transform: translateY(6px); }
-  53%, 94% { opacity: 1; transform: translateY(0); }
-  100% { opacity: 0; transform: translateY(0); }
+@keyframes hero-stage-enter {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .framework-figure img {
@@ -816,7 +788,7 @@ pre {
     scroll-behavior: auto;
   }
 
-  .hero-example.is-animated .hero-animation-stage {
+  .hero-animation-stage {
     animation: none;
     opacity: 1;
     transform: none;

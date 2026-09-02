@@ -137,7 +137,6 @@ def test_hero_integrates_task_and_search_while_abstract_stays_text_only():
     assert hero.count("<figure") == 1
     assert "task_example_figure.webp" in hero
     assert 'class="hero-example"' in hero
-    assert 'data-hero-animation' in hero
     assert "framework_diagram.svg" not in hero
 
     abstract_start = html.index('<section class="section abstract-section"')
@@ -203,6 +202,20 @@ def test_hero_diagram_shows_task_three_interleaved_rounds_and_linked_entity():
     assert all(item in text for item in required)
     assert hero.count('class="hero-animation-stage') == 4
     assert all(f'data-hero-stage="{stage}"' in hero for stage in range(1, 5))
+
+
+def test_hero_animation_plays_once_immediately_and_keeps_final_state():
+    css = (DOCS / "static" / "css" / "index.css").read_text(encoding="utf-8")
+    javascript = (DOCS / "static" / "js" / "index.js").read_text(
+        encoding="utf-8"
+    )
+
+    assert "animation-iteration-count: 1" in css
+    assert "animation-fill-mode: both" in css
+    assert "animation-iteration-count: infinite" not in css
+    assert "animation-play-state: paused" not in css
+    assert "IntersectionObserver" not in javascript
+    assert "data-hero-animation" not in javascript
 
 
 def test_site_removes_previous_landing_page_ui():
