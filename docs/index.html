@@ -175,6 +175,7 @@
               <path class="state-arrow" d="M208 317H251" marker-end="url(#arrow-blue)"/>
               <rect class="state-pill state-after" x="258" y="294" width="112" height="46" rx="23"/>
               <text class="svg-small" x="314" y="323" text-anchor="middle">state s_{t+1}</text>
+              <text class="svg-note model-note" x="230" y="363" text-anchor="middle">e_t updates the state before q_{t+1}</text>
               <rect class="svg-box search-box" x="64" y="490" width="332" height="108" rx="12"/>
               <text class="svg-title" x="230" y="531" text-anchor="middle">Wikipedia search</text>
               <text class="svg-body" x="230" y="563" text-anchor="middle">returns new article snippets</text>
@@ -184,9 +185,8 @@
               <path class="evidence-line" d="M181 490V456Q181 440 165 440H133V380" marker-end="url(#arrow-green)"/>
               <rect class="line-label green-label" x="40" y="406" width="132" height="32" rx="16"/>
               <text class="svg-label" x="106" y="427" text-anchor="middle">evidence e_t</text>
-              <path class="loop-line" d="M396 544H425V284H414" marker-end="url(#arrow-blue)"/>
-              <text class="svg-note" x="431" y="432" transform="rotate(-90 431 432)" text-anchor="middle">updated state can issue q_{t+1}</text>
-              <path class="flow-line" d="M230 378V644" marker-end="url(#arrow-blue)"/>
+              <path class="completion-line" d="M48 360H24V694H62" marker-end="url(#arrow-blue)"/>
+              <text class="svg-note" x="17" y="548" transform="rotate(-90 17 548)" text-anchor="middle">when confident</text>
               <rect class="svg-box output-box" x="64" y="656" width="332" height="76" rx="12"/>
               <text class="svg-title" x="230" y="690" text-anchor="middle">Title extraction</text>
               <text class="svg-body" x="230" y="716" text-anchor="middle">one English Wikipedia title</text>
@@ -219,8 +219,22 @@
               <text class="trace-body" x="330" y="670">Grand-class cruise ship; COVID-19 outbreak</text>
               <path class="trace-connector" d="M380 696V716" marker-end="url(#trace-arrow)"/>
               <text class="final-label" x="28" y="748">Final output</text>
-              <text class="final-title" x="150" y="748">Diamond Princess (ship)</text>
+              <text class="final-title" x="178" y="748">Diamond Princess (ship)</text>
             </svg>
+            <div class="framework-trace-mobile" role="img" aria-label="Two search iterations. A generic cruise ship query leaves the target unresolved. Image evidence reveals Diamond Princess, so the next query retrieves Diamond Princess ship.">
+              <p class="mobile-trace-heading">Example trace</p>
+              <h3>Iteration 1</h3>
+              <div class="mobile-trace-step mobile-call-one"><span>Tool call</span><code>search("cruise ship Yokohama virus")</code></div>
+              <div class="mobile-trace-arrow" aria-hidden="true">↓</div>
+              <div class="mobile-trace-step mobile-result"><span>Returned evidence</span><p>Generic cruise-ship results. The target is unresolved.</p></div>
+              <div class="mobile-observation"><span>Image evidence</span><p>The hull reads “Diamond Princess.”</p></div>
+              <div class="mobile-trace-rule" aria-hidden="true"></div>
+              <h3>Iteration 2</h3>
+              <div class="mobile-trace-step mobile-call-two"><span>Refined tool call</span><code>search("Diamond Princess ship")</code></div>
+              <div class="mobile-trace-arrow" aria-hidden="true">↓</div>
+              <div class="mobile-trace-step mobile-answer"><span>Returned evidence</span><strong>Diamond Princess (ship)</strong><p>Grand-class cruise ship; COVID-19 outbreak</p></div>
+              <p class="mobile-final"><span>Final output</span><strong>Diamond Princess (ship)</strong></p>
+            </div>
           </div>
           <figcaption id="framework-caption">Returned evidence updates the model’s reasoning state, so the next query can retrieve different content. In this example, visual evidence changes a generic search into one that identifies the ship.</figcaption>
         </figure>

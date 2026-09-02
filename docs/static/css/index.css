@@ -81,6 +81,13 @@ button:focus-visible {
   text-decoration: none;
 }
 
+.project-navbar .navbar-burger {
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+  color: #4d565e;
+}
+
 .publication-header .hero-body {
   padding-bottom: 2rem;
   padding-top: 3.5rem;
@@ -348,10 +355,15 @@ figcaption {
 .flow-line,
 .query-line,
 .state-arrow,
-.loop-line {
+.completion-line {
   fill: none;
   stroke: #4d789b;
   stroke-width: 2;
+}
+
+.model-note {
+  fill: #7b624f;
+  font-size: 12px;
 }
 
 .evidence-line {
@@ -453,6 +465,10 @@ figcaption {
   fill: none;
   stroke: #76828b;
   stroke-width: 1.7;
+}
+
+.framework-trace-mobile {
+  display: none;
 }
 
 .iteration-rule {
@@ -640,6 +656,119 @@ pre {
   .framework-diagram {
     margin: 0 auto;
     max-width: 100%;
+  }
+
+  .framework-trace {
+    display: none;
+  }
+
+  .framework-trace-mobile {
+    border: 1px solid var(--rule);
+    display: block;
+    padding: 1rem;
+  }
+
+  .mobile-trace-heading,
+  .mobile-trace-step span,
+  .mobile-observation span {
+    color: #667179;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .framework-trace-mobile h3 {
+    font-family: "Google Sans", "Noto Sans", sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    margin: 0.75rem 0 0.5rem;
+  }
+
+  .mobile-trace-step {
+    border: 1px solid;
+    border-radius: 7px;
+    padding: 0.75rem;
+  }
+
+  .mobile-trace-step code,
+  .mobile-trace-step p,
+  .mobile-observation p {
+    background: transparent;
+    color: #263038;
+    display: block;
+    font-size: 0.82rem;
+    margin: 0.25rem 0 0;
+    padding: 0;
+  }
+
+  .mobile-trace-step code {
+    font-weight: 600;
+    overflow-wrap: anywhere;
+  }
+
+  .mobile-call-one {
+    background: var(--blue);
+    border-color: var(--blue-line);
+  }
+
+  .mobile-call-two {
+    background: var(--peach);
+    border-color: var(--peach-line);
+  }
+
+  .mobile-result {
+    background: #f5f6f7;
+    border-color: #bec5ca;
+  }
+
+  .mobile-answer {
+    background: var(--green);
+    border-color: var(--green-line);
+  }
+
+  .mobile-answer strong {
+    display: block;
+    font-size: 0.86rem;
+    margin-top: 0.25rem;
+  }
+
+  .mobile-trace-arrow {
+    color: #76828b;
+    line-height: 1.25;
+    text-align: center;
+  }
+
+  .mobile-observation {
+    background: #fff6de;
+    border: 1px solid #d8b461;
+    border-radius: 999px;
+    margin: 0.85rem auto;
+    padding: 0.65rem 1rem;
+    text-align: center;
+    width: 90%;
+  }
+
+  .mobile-observation span {
+    color: #816a2b;
+  }
+
+  .mobile-trace-rule {
+    border-top: 1px dashed #aab2b8;
+    margin: 1rem 0;
+  }
+
+  .mobile-final {
+    align-items: baseline;
+    display: flex;
+    flex-wrap: wrap;
+    font-size: 0.86rem;
+    gap: 0.35rem 0.75rem;
+    margin: 0.8rem 0 0;
+  }
+
+  .mobile-final span {
+    font-weight: 500;
   }
 
   .citation-box #copy-bibtex {

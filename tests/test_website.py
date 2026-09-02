@@ -121,14 +121,14 @@ def test_site_has_approved_links_and_iterative_diagram():
 
 def test_site_removes_previous_landing_page_ui():
     html = (DOCS / "index.html").read_text(encoding="utf-8")
-    forbidden = [
+    forbidden_classes = {
         "hero-glow",
         "stat-grid",
         "section-dark",
-        "data-lightbox",
         "reveal",
-    ]
-    assert all(token not in html for token in forbidden)
+    }
+    assert forbidden_classes.isdisjoint(parse_site().classes)
+    assert "data-lightbox" not in html
 
 
 def test_navigation_and_diagram_have_accessible_contracts():
