@@ -106,6 +106,7 @@ def test_site_preserves_every_published_figure():
     expected = {
         path.relative_to(DOCS).as_posix()
         for path in (DOCS / "assets" / "figures").glob("*.webp")
+        if path.name != "task_example_figure.webp"
     }
     published = {
         image["src"]
@@ -128,27 +129,29 @@ def test_site_has_approved_links_and_iterative_diagram():
     assert "stroke-dasharray" in diagram
 
 
-def test_hero_leads_with_framework_and_abstract_contains_task_figure():
+def test_hero_integrates_task_and_search_while_abstract_stays_text_only():
     html = (DOCS / "index.html").read_text(encoding="utf-8")
     hero_start = html.index('<section class="hero teaser">')
     hero_end = html.index("</section>", hero_start)
     hero = html[hero_start:hero_end]
     assert hero.count("<figure") == 1
-    assert "task_example_figure.webp" not in hero
-    assert "framework_diagram.svg" in hero
+    assert "task_example_figure.webp" in hero
+    assert 'class="hero-example"' in hero
+    assert 'data-hero-animation' in hero
+    assert "framework_diagram.svg" not in hero
 
     abstract_start = html.index('<section class="section abstract-section"')
     abstract_end = html.index("</section>", abstract_start)
     abstract = html[abstract_start:abstract_end]
-    assert "abstract-layout" in abstract
-    assert "task_example_figure.webp" in abstract
-    assert abstract.count("<figure") == 1
+    assert "abstract-layout" not in abstract
+    assert "task_example_figure.webp" not in abstract
+    assert abstract.count("<figure") == 0
 
 
-def test_framework_diagram_is_reused_and_shows_three_search_rounds():
+def test_framework_diagram_remains_unchanged_in_framework_section():
     html = (DOCS / "index.html").read_text(encoding="utf-8")
-    assert html.count('src="assets/figures/framework_diagram.svg"') == 2
-    assert html.count('srcset="assets/figures/framework_diagram_mobile.svg"') == 2
+    assert html.count('src="assets/figures/framework_diagram.svg"') == 1
+    assert html.count('srcset="assets/figures/framework_diagram_mobile.svg"') == 1
 
     for filename in ("framework_diagram.svg", "framework_diagram_mobile.svg"):
         diagram = (DOCS / "assets" / "figures" / filename).read_text(
@@ -170,6 +173,38 @@ def test_framework_diagram_is_reused_and_shows_three_search_rounds():
         assert all(item in diagram.lower() for item in required)
 
 
+def test_hero_diagram_shows_task_three_interleaved_rounds_and_linked_entity():
+    required = [
+        "input",
+        "cruise ship",
+        'image clue: “diamond princess”',
+        "illustrative reasoning and search",
+        "iteration 1",
+        "iteration 2",
+        "iteration 3",
+        "reasoning",
+        "search",
+        "returned pages",
+        "cruise ship yokohama virus",
+        "diamond princess yokohama",
+        "diamond princess ship",
+        "linked entity",
+        "diamond princess (ship)",
+        "english wikipedia title",
+    ]
+
+    html = (DOCS / "index.html").read_text(encoding="utf-8")
+    hero_start = html.index('<section class="hero teaser">')
+    hero_end = html.index("</section>", hero_start)
+    hero = html[hero_start:hero_end]
+    parser = SiteParser()
+    parser.feed(hero)
+    text = " ".join(" ".join(parser.text).split()).lower()
+    assert all(item in text for item in required)
+    assert hero.count('class="hero-animation-stage') == 4
+    assert all(f'data-hero-stage="{stage}"' in hero for stage in range(1, 5))
+
+
 def test_site_removes_previous_landing_page_ui():
     html = (DOCS / "index.html").read_text(encoding="utf-8")
     forbidden_classes = {
@@ -188,7 +223,8 @@ def test_navigation_and_diagram_have_accessible_contracts():
     assert 'aria-controls="site-menu"' in html
     assert 'aria-expanded="false"' in html
     assert 'id="site-menu"' in html
-    assert html.count('alt="Iterative Wikipedia retrieval') == 2
+    assert html.count('alt="Iterative Wikipedia retrieval') == 1
+    assert html.count('alt="A Japanese cruise ship mention') == 1
 
     diagram = (DOCS / "assets" / "figures" / "framework_diagram.svg").read_text(
         encoding="utf-8"

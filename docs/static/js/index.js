@@ -18,6 +18,39 @@ menu?.querySelectorAll("a").forEach((link) => {
   link.addEventListener("click", closeMenu);
 });
 
+const heroExample = document.querySelector("[data-hero-animation]");
+const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+if (heroExample && !reducedMotion.matches && "IntersectionObserver" in window) {
+  let isVisible = false;
+  let isHovered = false;
+
+  const updateHeroAnimation = () => {
+    heroExample.classList.toggle("is-paused", !isVisible || isHovered);
+  };
+
+  const heroObserver = new IntersectionObserver(
+    ([entry]) => {
+      isVisible = entry.isIntersecting;
+      if (isVisible) heroExample.classList.add("is-animated");
+      updateHeroAnimation();
+    },
+    { threshold: 0.18 },
+  );
+
+  heroExample.addEventListener("mouseenter", () => {
+    isHovered = true;
+    updateHeroAnimation();
+  });
+
+  heroExample.addEventListener("mouseleave", () => {
+    isHovered = false;
+    updateHeroAnimation();
+  });
+
+  heroObserver.observe(heroExample);
+}
+
 const copyButton = document.querySelector("#copy-bibtex");
 const bibtex = document.querySelector("#bibtex-code");
 

@@ -100,30 +100,73 @@
 
     <section class="hero teaser">
       <div class="hero-body">
-        <div class="container is-widescreen hero-framework-only">
-          <figure class="teaser-figure hero-framework-figure">
-            <picture>
-              <source media="(max-width: 768px)" srcset="assets/figures/framework_diagram_mobile.svg">
-              <img src="assets/figures/framework_diagram.svg" alt="Iterative Wikipedia retrieval with an abstract search loop and a three-step Diamond Princess example trace." width="1260" height="1020" fetchpriority="high">
-            </picture>
-            <figcaption>Each round uses the current reasoning state to search, inspect returned pages, and decide what to retrieve next.</figcaption>
+        <div class="container is-widescreen hero-example-container">
+          <figure class="hero-example" data-hero-animation aria-labelledby="hero-example-caption">
+            <div class="hero-example-grid">
+              <article class="hero-example-panel hero-input-panel">
+                <header class="hero-panel-heading">
+                  <span class="hero-stage-number">1</span>
+                  <div><span class="hero-panel-kicker">Input</span><strong>Multilingual mention + image</strong></div>
+                </header>
+                <div class="hero-task-crop">
+                  <img src="assets/figures/task_example_figure.webp" alt="A Japanese cruise ship mention near Yokohama above a photograph whose hull reads Diamond Princess." width="872" height="1108" fetchpriority="high">
+                </div>
+                <div class="hero-image-clue"><span>Image clue:</span><strong>“Diamond Princess”</strong></div>
+              </article>
+
+              <div class="hero-flow-arrow" aria-hidden="true">→</div>
+
+              <div class="hero-example-panel hero-trace-panel" role="group" aria-label="Illustrative reasoning and search trace">
+                <header class="hero-panel-heading hero-trace-heading">
+                  <span class="hero-stage-number">2</span>
+                  <div><span class="hero-panel-kicker">Illustrative reasoning and search</span><strong>Evidence changes the next query</strong></div>
+                </header>
+
+                <article class="hero-animation-stage hero-round" data-hero-stage="1">
+                  <h3>Iteration 1</h3>
+                  <div class="hero-reasoning"><span>Reasoning</span><p>The mention only says “cruise ship” near Yokohama. I need candidate names...</p></div>
+                  <div class="hero-search"><span>Search</span><code>search("cruise ship Yokohama virus")</code></div>
+                  <div class="hero-returned"><span>Returned pages</span><div class="hero-result-pills"><span>Cruise ship</span><span>Port of Yokohama</span><span class="hero-more-pill">…</span></div></div>
+                </article>
+
+                <article class="hero-animation-stage hero-round" data-hero-stage="2">
+                  <h3>Iteration 2</h3>
+                  <div class="hero-reasoning"><span>Reasoning</span><p>The results are too broad. The hull appears to read “Diamond Princess”...</p></div>
+                  <div class="hero-search"><span>Search</span><code>search("Diamond Princess Yokohama")</code></div>
+                  <div class="hero-returned"><span>Returned pages</span><div class="hero-result-pills"><span>COVID-19 pandemic on Diamond Princess</span><span class="is-relevant">Diamond Princess (ship)</span><span class="hero-more-pill">…</span></div></div>
+                </article>
+
+                <article class="hero-animation-stage hero-round" data-hero-stage="3">
+                  <h3>Iteration 3</h3>
+                  <div class="hero-reasoning"><span>Reasoning</span><p>The vessel is likely right. I should verify its canonical English title...</p></div>
+                  <div class="hero-search"><span>Search</span><code>search("Diamond Princess ship")</code></div>
+                  <div class="hero-returned is-confirmed"><span>Returned pages</span><div class="hero-result-pills"><span class="is-relevant">Diamond Princess (ship)</span><span>Grand-class cruise ship</span><span class="hero-more-pill">…</span></div></div>
+                </article>
+              </div>
+
+              <div class="hero-flow-arrow" aria-hidden="true">→</div>
+
+              <article class="hero-animation-stage hero-example-panel hero-output-panel" data-hero-stage="4">
+                <header class="hero-panel-heading">
+                  <span class="hero-stage-number">3</span>
+                  <div><span class="hero-panel-kicker">Linked entity</span><strong>English Wikipedia title</strong></div>
+                </header>
+                <div class="hero-wikipedia-card">
+                  <span class="hero-wikipedia-mark" aria-hidden="true">W</span>
+                  <div><strong>Diamond Princess (ship)</strong><span>Grand-class cruise ship</span></div>
+                </div>
+              </article>
+            </div>
+            <figcaption id="hero-example-caption">Reasoning lets the model narrow, broaden, or redirect each search based on evidence returned in earlier rounds.</figcaption>
           </figure>
         </div>
       </div>
     </section>
 
     <section class="section abstract-section" id="abstract">
-      <div class="container is-widescreen publication-body">
+      <div class="container is-max-desktop content publication-body">
         <h2 class="title is-3 has-text-centered">Abstract</h2>
-        <div class="abstract-layout">
-          <div class="content abstract-copy">
-            <p>Multimodal entity linking grounds entity mentions in text and images to knowledge-base entries. These systems degrade on rare entities, but prior work measures rarity primarily through popularity-based metrics such as pageviews. We broaden this view using knowledge-graph structural metrics that capture how well an entity is documented and connected. These metrics identify many rare entities that popularity metrics miss. Across the resulting rare-entity slices, state-of-the-art accuracy drops by 15.4–39.9%, showing that different rarity definitions expose different failure modes. To address these failures, we introduce a simple, training-free framework in which a reasoning-capable vision-language model iteratively searches and reasons over Wikipedia, gathering evidence dynamically. Controlled experiments show that reasoning and retrieval are complementary. Reasoning alone does not significantly improve accuracy on rare entities. Retrieval without reasoning improves rare-entity accuracy but can hurt overall accuracy. Their combination performs best. On MERLIN, a multilingual multimodal entity linking benchmark over five languages (Hindi, Indonesian, Japanese, Tamil, Vietnamese), our best system improves over the state of the art by 6.9% overall and by up to 23.3% on rare-entity slices. We release MERLIN-Rare, rare-entity test slices for targeted evaluation, with our framework.</p>
-          </div>
-          <figure class="abstract-task-figure">
-            <img src="assets/figures/task_example_figure.webp" alt="A Japanese news article says cruise ship while the image shows Diamond Princess on the hull, enabling the mention to be linked to Diamond Princess ship." width="872" height="1108" loading="lazy">
-            <figcaption>Text can leave an entity ambiguous. The image provides a clue, and iterative retrieval turns that clue into the correct Wikipedia title.</figcaption>
-          </figure>
-        </div>
+        <p>Multimodal entity linking grounds entity mentions in text and images to knowledge-base entries. These systems degrade on rare entities, but prior work measures rarity primarily through popularity-based metrics such as pageviews. We broaden this view using knowledge-graph structural metrics that capture how well an entity is documented and connected. These metrics identify many rare entities that popularity metrics miss. Across the resulting rare-entity slices, state-of-the-art accuracy drops by 15.4–39.9%, showing that different rarity definitions expose different failure modes. To address these failures, we introduce a simple, training-free framework in which a reasoning-capable vision-language model iteratively searches and reasons over Wikipedia, gathering evidence dynamically. Controlled experiments show that reasoning and retrieval are complementary. Reasoning alone does not significantly improve accuracy on rare entities. Retrieval without reasoning improves rare-entity accuracy but can hurt overall accuracy. Their combination performs best. On MERLIN, a multilingual multimodal entity linking benchmark over five languages (Hindi, Indonesian, Japanese, Tamil, Vietnamese), our best system improves over the state of the art by 6.9% overall and by up to 23.3% on rare-entity slices. We release MERLIN-Rare, rare-entity test slices for targeted evaluation, with our framework.</p>
       </div>
     </section>
 
