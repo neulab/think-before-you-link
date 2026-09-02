@@ -204,6 +204,22 @@ def test_hero_diagram_shows_task_three_interleaved_rounds_and_linked_entity():
     assert all(f'data-hero-stage="{stage}"' in hero for stage in range(1, 5))
 
 
+def test_hero_caption_connects_dynamic_retrieval_to_rare_entities():
+    html = (DOCS / "index.html").read_text(encoding="utf-8")
+    hero_start = html.index('<section class="hero teaser">')
+    hero_end = html.index("</section>", hero_start)
+    hero = " ".join(html[hero_start:hero_end].split())
+
+    expected = (
+        "Reasoning lets the model narrow, broaden, or redirect each search based "
+        "on evidence returned in earlier rounds. Instead of retrieving a candidate "
+        "set once and only reranking it, the model dynamically retrieves new "
+        "evidence throughout the reasoning process. We show that this training-free "
+        "approach recovers much of the performance lost on rare entities."
+    )
+    assert expected in hero
+
+
 def test_hero_animation_plays_once_immediately_and_keeps_final_state():
     css = (DOCS / "static" / "css" / "index.css").read_text(encoding="utf-8")
     javascript = (DOCS / "static" / "js" / "index.js").read_text(
