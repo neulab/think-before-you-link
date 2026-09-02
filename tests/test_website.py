@@ -218,6 +218,26 @@ def test_hero_animation_plays_once_immediately_and_keeps_final_state():
     assert "data-hero-animation" not in javascript
 
 
+def test_hero_stacks_before_its_horizontal_grid_can_overflow():
+    css = (DOCS / "static" / "css" / "index.css").read_text(encoding="utf-8")
+    responsive_start = css.index("@media screen and (max-width: 1180px)")
+    responsive_end = css.index("@media screen and (max-width: 1023px)")
+    hero_responsive_css = css[responsive_start:responsive_end]
+
+    assert ".hero-example-grid" in hero_responsive_css
+    assert "grid-template-columns: 1fr" in hero_responsive_css
+    assert ".hero-flow-arrow" in hero_responsive_css
+    assert "transform: rotate(90deg)" in hero_responsive_css
+
+
+def test_hero_horizontal_grid_centers_the_dominant_trace_panel():
+    css = (DOCS / "static" / "css" / "index.css").read_text(encoding="utf-8")
+    assert (
+        "grid-template-columns: minmax(0, 3fr) 30px minmax(0, 5fr) "
+        "30px minmax(0, 3fr)" in css
+    )
+
+
 def test_site_removes_previous_landing_page_ui():
     html = (DOCS / "index.html").read_text(encoding="utf-8")
     forbidden_classes = {

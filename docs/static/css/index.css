@@ -177,7 +177,7 @@ button:focus-visible {
   align-items: center;
   display: grid;
   gap: 0.9rem;
-  grid-template-columns: minmax(280px, 3fr) 30px minmax(500px, 5fr) 30px minmax(210px, 2fr);
+  grid-template-columns: minmax(0, 3fr) 30px minmax(0, 5fr) 30px minmax(0, 3fr);
 }
 
 .hero-example-panel {
@@ -667,6 +667,19 @@ pre {
   margin-top: 0.45rem;
 }
 
+@media screen and (max-width: 1180px) {
+  .hero-example-grid {
+    grid-template-columns: 1fr;
+    margin: 0 auto;
+    max-width: 720px;
+  }
+
+  .hero-flow-arrow {
+    line-height: 1;
+    transform: rotate(90deg);
+  }
+}
+
 @media screen and (max-width: 1023px) {
   .project-navbar .navbar-brand {
     margin-left: auto;
@@ -683,16 +696,6 @@ pre {
     padding-top: 0.8rem;
   }
 
-  .hero-example-grid {
-    grid-template-columns: 1fr;
-    margin: 0 auto;
-    max-width: 720px;
-  }
-
-  .hero-flow-arrow {
-    line-height: 1;
-    transform: rotate(90deg);
-  }
 }
 
 @media screen and (max-width: 768px) {
