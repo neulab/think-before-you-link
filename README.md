@@ -306,10 +306,14 @@ The tests cover scoring behavior, Wikipedia-index extraction, MERLIN-Rare recons
 ## Citation
 
 ```bibtex
-@article{pengpun2026think,
-  title  = {Think Before You Link: Rarity, Reasoning, and Retrieval in Multilingual Entity Linking},
-  author = {Pengpun, Parinthapat and Khanuja, Simran and Neubig, Graham},
-  year   = {2026}
+@misc{pengpun2026thinklinkrarityreasoning,
+      title={Think Before You Link: Rarity, Reasoning, and Retrieval in Multilingual Entity Linking}, 
+      author={Parinthapat Pengpun and Simran Khanuja and Graham Neubig},
+      year={2026},
+      eprint={2609.10745},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL},
+      url={https://arxiv.org/abs/2609.10745}, 
 }
 ```
 
