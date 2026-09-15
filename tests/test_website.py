@@ -139,13 +139,19 @@ def test_site_has_approved_links_and_iterative_diagram():
     html = (DOCS / "index.html").read_text(encoding="utf-8")
     assert "https://github.com/neulab/think-before-you-link" in html
     assert "https://huggingface.co/datasets/neulab/merlin-rare" in html
-    assert "arxiv.org" not in html.lower()
+    assert "https://arxiv.org/abs/2609.10745" in html
     diagram_path = DOCS / "assets" / "figures" / "framework_diagram.svg"
     assert diagram_path.is_file()
     diagram = diagram_path.read_text(encoding="utf-8")
     assert "q_t" in diagram and "q_{t+1}" in diagram
     assert all(f"Iteration {number}" in diagram for number in (1, 2, 3))
     assert "stroke-dasharray" in diagram
+
+
+def test_readme_links_to_arxiv():
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    assert "https://arxiv.org/abs/2609.10745" in readme
+    assert "arXiv paper" in readme
 
 
 def test_hero_integrates_task_and_search_while_abstract_stays_text_only():

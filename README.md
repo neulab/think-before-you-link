@@ -20,6 +20,7 @@
 
 <p align="center">
   <a href="https://neulab.github.io/think-before-you-link/"><img src="https://img.shields.io/badge/Project-Page-5277b8?style=for-the-badge" alt="Project page"></a>
+  <a href="https://arxiv.org/abs/2609.10745"><img src="https://img.shields.io/badge/arXiv-2609.10745-b31b1b?style=for-the-badge" alt="arXiv paper"></a>
   <a href="https://huggingface.co/datasets/neulab/merlin-rare"><img src="https://img.shields.io/badge/Dataset-MERLIN--Rare-f0b44d?style=for-the-badge" alt="MERLIN-Rare dataset"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-5c947d?style=for-the-badge" alt="MIT license"></a>
   <img src="https://img.shields.io/badge/Python-3.11%2B-3776ab?style=for-the-badge" alt="Python 3.11 or newer">
